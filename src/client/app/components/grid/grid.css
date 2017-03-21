@@ -1,0 +1,48 @@
+@import '../variables';
+
+:root {
+  --columns: 12;
+  --gutter: calc(0.8 * var(--unit));
+  --namespaces: xs, sm, md, lg, xl;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  margin-left: var(--gutter);
+  margin-right: var(--gutter);
+  width: 100%;
+}
+
+%col {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-height: 1px;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+@each $namespace in var(--namespaces) {
+  @for $i from 1 to var(--columns) {
+    .col_$(namespace)_$(i) {
+      @extend %col;
+    }
+
+    .col_$(namespace)_$(i) {
+      flex-basis: calc($(i) / var(--columns) * 100%);
+      max-width: calc($(i) / var(--columns) * 100%);
+    }
+  }
+}
+
+.item {
+  background-color: cornflowerblue;
+  border-radius: 4px;
+  height: 32px;
+  margin-bottom: 16px;
+}

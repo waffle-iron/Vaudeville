@@ -1,0 +1,77 @@
+@import '../colors.css';
+@import '../variables.css';
+@import './config.css';
+
+.input {
+  @apply --reset;
+  padding: var(--input-padding) 0;
+  position: relative;
+
+  &.withIcon {
+    margin-left: var(--input-icon-size);
+  }
+}
+
+.inputInternal {
+  background-color: var(--input-internal-background-color);
+  border: 0;
+  border-bottom: 1px solid var(--input-internal-border-bottom-color);
+  color: var(--input-internal-text-color);
+  display: block;
+  font-size: var(--input-internal-font-size);
+  outline: none;
+  padding: var(--input-internal-padding) 0;
+  width: 100%;
+
+  &:focus {
+    & ~ .bar::before,
+    & ~ .bar::after {
+      width: 50%;
+    }
+
+    & ~ .icon {
+      color: var(--input-internal-text-highlight-color);
+    }
+  }
+}
+
+.icon {
+  color: var(--input-icon-color);
+  display: block;
+  font-size: var(--input-icon-font-size) !important;
+  height: var(--input-icon-size);
+  left: calc(-1 * var(--input-icon-size));
+  line-height: var(--input-icon-size) !important;
+  position: absolute;
+  text-align: center;
+  top: var(--input-icon-offset);
+  transition: color var(--animation-duration) var(--animation-curve-default);
+  width: var(--input-icon-size);
+}
+
+.bar {
+  display: block;
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    background-color: var(--input-internal-text-highlight-color);
+    bottom: 0;
+    content: '';
+    height: 2px;
+    position: absolute;
+    transition-duration: 0.2s;
+    transition-property: width, background-color;
+    transition-timing-function: var(--animation-curve-default);
+    width: 0;
+  }
+
+  &::before {
+    left: 50%;
+  }
+
+  &::after {
+    right: 50%;
+  }
+}

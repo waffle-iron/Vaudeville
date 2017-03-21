@@ -1,0 +1,17 @@
+@import '../colors.css';
+@import '../variables.css';
+
+:root {
+  --input-padding: calc(1 * var(--unit));
+  --input-internal-background-color: transparent;
+  --input-internal-border-bottom-color: color(var(--color-black) a(12%));
+  --input-internal-padding: calc(0.8 * var(--unit));
+  --input-internal-font-size: calc(1.6 * var(--unit));
+  --input-internal-text-color: var(--color-text);
+  --input-internal-text-highlight-color: var(--color-primary);
+  --input-icon-font-size: calc(2.4 * var(--unit));
+  --input-icon-size: calc(2 * var(--input-icon-font-size));
+  --input-icon-offset: calc(var(--input-padding) - calc(0.5 * var(--input-internal-padding)));
+  --input-icon-color: var(--input-label-color);
+  --input-label-color: color(var(--color-black) a(26%));
+}

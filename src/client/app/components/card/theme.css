@@ -1,0 +1,14 @@
+@import '../colors.css';
+@import '../variables.css';
+@import './config.css';
+
+.card {
+  @apply --reset;
+  background: var(--card-background-color);
+  border-radius: calc(0.2 * var(--unit));
+  box-shadow: var(--shadow-2px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}

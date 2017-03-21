@@ -1,0 +1,7 @@
+@import '../colors.css';
+@import '../variables.css';
+
+:root {
+  --card-background-color: var(--color-white);
+  --card-padding: calc(1.6 * var(--unit));
+}

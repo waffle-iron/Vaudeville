@@ -1,0 +1,34 @@
+﻿{
+  "extends": [
+    "tslint:latest",
+    "tslint-react"
+  ],
+  "rules": {
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "jsx-alignment": [
+      false
+    ],
+    "member-ordering": [
+      false
+    ],
+    "no-console": [
+      false
+    ],
+    "no-shadowed-variable": true,
+    "no-unused-variable": [
+      true,
+      "react"
+    ],
+    "no-var-requires": true,
+    "object-literal-sort-keys": false,
+    "ordered-imports": [ false ],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ]
+  }
+}

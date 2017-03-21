@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-hex-case": "lower",
+    "declaration-block-properties-order": "alphabetical",
+    "declaration-empty-line-before": "never",
+    "font-family-name-quotes": "always-where-recommended",
+    "property-no-vendor-prefix": true,
+    "string-quotes": "single",
+  }
+}

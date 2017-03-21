@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "name": "monty",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "core-js": "^2.4.1",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/classnames": "0.0.32",
+    "@types/core-js": "^0.9.35",
+    "@types/isomorphic-fetch": "0.0.33",
+    "@types/node": "^7.0.5",
+    "@types/react": "^15.0.13",
+    "@types/react-dom": "^0.14.23",
+    "@types/react-router": "^2.0.41",
+    "@types/webpack": "^2.2.7",
+    "@types/webpack-env": "^1.13.0",
+    "awesome-typescript-loader": "^3.0.7",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta.5",
+    "html-webpack-plugin": "^2.26.0",
+    "postcss": "^5.2.10",
+    "postcss-at-rules-variables": "0.0.27",
+    "postcss-cssnext": "^2.9.0",
+    "postcss-each": "^0.9.3",
+    "postcss-extend": "^1.0.5",
+    "postcss-for": "^2.1.1",
+    "postcss-import": "^9.1.0",
+    "postcss-loader": "^1.2.2",
+    "postcss-mixins": "^5.4.1",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "source-map-loader": "^0.1.6",
+    "style-loader": "^0.13.1",
+    "stylelint": "^7.7.1",
+    "stylelint-config-standard": "^16.0.0",
+    "typescript": "^2.1.6",
+    "webpack": "^2.2.1",
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-dev-server": "^2.2.0-rc.0",
+    "webpack-hot-middleware": "^2.15.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server"
+  }
+}
