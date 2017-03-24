@@ -1,5 +1,5 @@
-import { IPagedCollection, ITmdbMovie } from '../models';
-
+import { IPagedCollection } from '../../../models';
+import { ITmdbMovie } from '../../../models/tmdb';
 import { ITmdbMoviePopularRequest } from '../requests';
 
 export interface ITmdbMovieApi {

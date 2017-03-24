@@ -1,19 +1,8 @@
 import * as cheerio from 'cheerio';
 import * as request from 'request-promise-native';
 
+import { ITorrentResult } from '../../models';
 import { injectable } from 'inversify';
-
-interface ITorrentResult {
-  id: number;
-  name: string;
-  magnetUrl: string;
-  pageUrl: string;
-  fileSize: string;
-  byteSize: number;
-  age: string;
-  seeders: number;
-  leechers: number;
-}
 
 interface IMagnetDl {
   getTorrents(title: string, year: number, page: number): Promise<ITorrentResult[]>;

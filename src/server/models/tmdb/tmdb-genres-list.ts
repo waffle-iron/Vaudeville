@@ -1,4 +1,4 @@
-import { ITmdbGenre } from '../models';
+import { ITmdbGenre } from './';
 
 export interface ITmdbGenreList {
   genres: ITmdbGenre[];
