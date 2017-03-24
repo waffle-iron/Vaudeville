@@ -1,14 +1,16 @@
 import * as express from 'express';
+import * as types from '../types';
 
 import { get, route } from '../express/decorators';
+import { inject, injectable } from 'inversify';
 
-import { Tmdb } from '../services/tmdb';
-import { injectable } from 'inversify';
+import { ITmdb } from '../services/tmdb';
 
 @injectable()
 @route('/v1/configuration')
 export class ConfigurationRouter {
-  constructor(private tmdb: Tmdb) {
+  constructor(
+    @inject(types.tmdb) private tmdb: ITmdb) {
   }
 
   @get('/')

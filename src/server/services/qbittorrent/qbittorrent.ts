@@ -1,29 +1,38 @@
 import * as requestPromise from 'request-promise-native';
+import * as types from '../../types';
+
+import { inject, injectable } from 'inversify';
+
+import { IConfig } from '../../config';
 
 const request = requestPromise.defaults({ jar: true });
 
-class qBittorrent {
-  public static async connect(hostUrl: string, username?: string, password?: string) {
-    if (username && password) {
-      return await new qBittorrent(hostUrl).login(username, password);
-    } else {
-      return new qBittorrent(hostUrl);
-    }
-  }
+interface IQBittorrent {
+  login(username: string, password: string): Promise<IQBittorrent>;
+}
 
-  private constructor(private hostUrl: string) {
-    if (!this.hostUrl) {
-      this.hostUrl = 'http://localhost:8080';
-    }
-    if (!(hostUrl.startsWith('http://') || hostUrl.startsWith('https://'))) {
-      this.hostUrl = `http://${hostUrl}`;
-    }
-  }
+@injectable()
+class QBittorrent implements IQBittorrent {
+  private readonly hostUrl?: string;
+  private readonly username?: string;
+  private readonly password?: string;
 
-  public async login(username: string, password: string): Promise<qBittorrent> {
-    await request.post(`${this.hostUrl}/login`, { form: { username, password } });
+  constructor(
+    @inject(types.config) config: IConfig) {
+      this.hostUrl = config.qBittorrent.hostUrl;
+      this.username = config.qBittorrent.username;
+      this.password = config.qBittorrent.password;
+    }
+
+  public async login(username?: string, password?: string): Promise<IQBittorrent> {
+    await request.post(`${this.hostUrl}/login`, {
+      form: {
+        username: username ? username : this.username,
+        password: password ? password : this.password,
+      },
+    });
     return this;
   }
 }
 
-export { qBittorrent }
+export { IQBittorrent, QBittorrent }

@@ -1,1 +1,1 @@
-export { MagnetDl } from './magnet-dl';
+export { IMagnetDl, MagnetDl } from './magnet-dl';

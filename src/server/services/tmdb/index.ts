@@ -1,1 +1,1 @@
-export { Tmdb } from './tmdb';
+export { ITmdb, Tmdb } from './tmdb';

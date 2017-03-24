@@ -1,18 +1,19 @@
 import 'reflect-metadata';
 
+import * as ConfigStore from 'configstore';
 import * as bodyParser from 'body-parser';
 import * as morgan from 'morgan';
+import * as types from './types';
 
 import { ConfigurationRouter, MovieRouter, TorrentRouter } from './routes';
-import { MagnetDl, Tmdb, qBittorrent } from './services';
+import { IConfig, defaultConfig } from './config';
+import { IMagnetDl, IQBittorrent, ITmdb, MagnetDl, QBittorrent, Tmdb } from './services';
 
 import { Container } from 'inversify';
 import { Server } from './express/server';
 
-const isDev = process.env.NODE_ENV !== 'production';
-const port = isDev ? 3000 : process.env.PORT;
-
-const apiKey: string = '6d8f88d8825ab70a5d2e836a4b448cbe';
+const config = new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true })
+const port = config.get('app').port;
 
 const containerFactory = async(): Promise<Container> => {
   const container = new Container();
@@ -20,9 +21,11 @@ const containerFactory = async(): Promise<Container> => {
   container.bind(MovieRouter).toSelf();
   container.bind(TorrentRouter).toSelf();
 
-  container.bind(MagnetDl).toSelf();
-  container.bind(Tmdb).toConstantValue(new Tmdb(apiKey));
-  container.bind(qBittorrent).to(await qBittorrent.connect('localhost:9001', 'voila', 'vaudevillianveteran'));
+  container.bind<IConfig>(types.config).toConstantValue(
+    new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true }).all);
+  container.bind<IMagnetDl>(types.magnetDl).to(MagnetDl);
+  container.bind<ITmdb>(types.tmdb).to(Tmdb);
+  container.bind<IQBittorrent>(types.qBittorrent).to(QBittorrent);
 
   return container;
 };

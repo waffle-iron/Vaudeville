@@ -15,8 +15,12 @@ interface ITorrentResult {
   leechers: number;
 }
 
+interface IMagnetDl {
+  getTorrents(title: string, year: number, page: number): Promise<ITorrentResult[]>;
+}
+
 @injectable()
-class MagnetDl {
+class MagnetDl implements IMagnetDl {
   private static buildSearchUrl(title: string, year: number, page: number): string {
     let searchTerm = `${title} ${year.toString()}`;
     searchTerm = searchTerm.toLocaleLowerCase();
@@ -43,7 +47,7 @@ class MagnetDl {
       const magnetUrl = magnetLink.attr('href');
       const pageUrl = torrentLink.attr('href');
       const fileSize = $('td', element).eq(5).text();
-      const byteSize = this.filesizeToBytes(fileSize);
+      const byteSize = MagnetDl.filesizeToBytes(fileSize);
       const age = $('td', element).eq(2).text();
       const seeders = Number($('td.s', element).text());
       const leechers = Number($('td.l', element).text());
@@ -52,7 +56,7 @@ class MagnetDl {
     });
   }
 
-  private filesizeToBytes(filesize: string): number {
+  private static filesizeToBytes(filesize: string): number {
     filesize = filesize.toLocaleUpperCase();
     filesize = filesize.replace(/[^0-9KMGTPEB]/g, '');
 
@@ -66,4 +70,4 @@ class MagnetDl {
   }
 }
 
-export { MagnetDl };
+export { IMagnetDl, MagnetDl };

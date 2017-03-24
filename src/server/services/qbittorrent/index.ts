@@ -1,1 +1,1 @@
-export { qBittorrent } from './qbittorrent';
+export { IQBittorrent, QBittorrent } from './qbittorrent';

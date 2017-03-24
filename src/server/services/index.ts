@@ -1,3 +1,3 @@
-export { Tmdb } from './tmdb';
-export { MagnetDl } from './magnet-dl';
-export { qBittorrent } from './qbittorrent';
+export { ITmdb, Tmdb } from './tmdb';
+export { IMagnetDl, MagnetDl } from './magnet-dl';
+export { IQBittorrent, QBittorrent } from './qbittorrent';

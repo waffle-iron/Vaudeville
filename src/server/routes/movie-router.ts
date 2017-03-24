@@ -1,16 +1,16 @@
 import * as express from 'express';
+import * as types from '../types';
 
 import { get, route } from '../express/decorators';
+import { inject, injectable } from 'inversify';
 
-import { MagnetDl } from '../services/magnet-dl/magnet-dl';
-import { Tmdb } from '../services/tmdb';
-import { injectable } from 'inversify';
+import { ITmdb } from '../services/tmdb';
 
 @injectable()
 @route('/v1/movies')
 export class MovieRouter {
-  constructor(private tmdb: Tmdb) {
-  }
+  constructor(
+    @inject(types.tmdb) private tmdb: ITmdb) { }
 
   @get('/')
   public async getMovies(req: express.Request, res: express.Response) {
@@ -30,10 +30,5 @@ export class MovieRouter {
   public async getPopularMovies(req: express.Request, res: express.Response) {
     const popularMovies = await this.tmdb.movie.popular(req.query);
     res.end(JSON.stringify(popularMovies));
-  }
-
-  @get('/test')
-  public async gogo(req: express.Request, res: express.Response) {
-    const magnetDl = new MagnetDl();
   }
 }
