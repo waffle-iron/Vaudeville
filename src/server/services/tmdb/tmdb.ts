@@ -69,8 +69,8 @@ class Tmdb implements ITmdb {
     popular: async(req: ITmdbMoviePopularRequest) : Promise<IPagedCollection<ITmdbMovie>> => {
       const response = await request.get(this.url('movie/popular', req));
       return response.json();
-    }
-  }
+    },
+  };
 
   public search: ITmdbSearchApi = {
     movie: async(req: ITmdbSearchMovieRequest) : Promise<IPagedCollection<ITmdbMovie>> => {

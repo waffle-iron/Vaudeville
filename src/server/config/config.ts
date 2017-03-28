@@ -1,3 +1,14 @@
+interface IQuality {
+  label?: string;
+  ordinal?: number;
+  isEnabled?: boolean;
+  isStopping?: boolean;
+  identifiers?: string[];
+  minBitRate?: number;
+  maxBitRate?: number;
+  preferLarger?: boolean;
+}
+
 interface IConfig {
   app?: {
     port?: number;
@@ -10,6 +21,22 @@ interface IConfig {
   tmdb?: {
     apiKey?: string;
   };
+  torrent?: {
+    rank?: {
+      seeds?: {
+        lowerBounds?: number;
+        upperBounds?: number;
+        weight?: number;
+      };
+      keywords?: {
+        required?: string[];
+        excluded?: string[];
+        weighted?: { keywords: string[], weight: number };
+      };
+      defaultQuality?: IQuality;
+      qualities?: IQuality[];
+    };
+  };
 }
 
-export { IConfig }
+export { IConfig, IQuality }
