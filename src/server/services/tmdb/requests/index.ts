@@ -1,2 +1,3 @@
-export { ITmdbMoviePopularRequest } from './movie';
-export { ITmdbSearchMovieRequest } from './search';
+export { ITmdbMoviePopularRequest } from './movie/movie-popular-request';
+export { ITmdbMovieDetailsRequest } from './movie/movie-details-request';
+export { ITmdbSearchMovieRequest } from './search/search-movie-request';

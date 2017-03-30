@@ -1,4 +1,4 @@
-import { ITmdbGenre } from './';
+import { ITmdbGenre } from './tmdb-genre';
 
 interface IProductionCompany {
   id?: number;

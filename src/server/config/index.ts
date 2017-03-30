@@ -1,2 +1,2 @@
-export { IConfig, IQuality } from './config';
+export { IConfig } from './config';
 export { defaultConfig } from './default-config';

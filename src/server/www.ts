@@ -7,12 +7,15 @@ import * as types from './types';
 
 import { ConfigurationRouter, MovieRouter, TorrentRouter } from './routes';
 import { IConfig, defaultConfig } from './config';
-import { IMagnetDl, IQBittorrent, ITmdb, MagnetDl, QBittorrent, Tmdb } from './services';
+import { IMagnetDl, MagnetDl } from './services';
+import { IQBittorrent, QBittorrent } from './services';
+import { ITmdb, Tmdb } from './services';
+import { ITorrentService, TorrentService } from './services';
 
 import { Container } from 'inversify';
 import { Server } from './express/server';
 
-const config = new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true })
+const config = new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true });
 const port = config.get('app').port;
 
 const containerFactory = async(): Promise<Container> => {
@@ -21,11 +24,13 @@ const containerFactory = async(): Promise<Container> => {
   container.bind(MovieRouter).toSelf();
   container.bind(TorrentRouter).toSelf();
 
-  container.bind<IConfig>(types.config).toConstantValue(
+  container.bind<IConfig>(types.config).toDynamicValue(() =>
     new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true }).all);
   container.bind<IMagnetDl>(types.magnetDl).to(MagnetDl);
   container.bind<ITmdb>(types.tmdb).to(Tmdb);
   container.bind<IQBittorrent>(types.qBittorrent).to(QBittorrent);
+
+  container.bind<ITorrentService>(types.torrentService).to(TorrentService);
 
   return container;
 };

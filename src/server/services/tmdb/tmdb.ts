@@ -1,9 +1,9 @@
 import * as request from 'request-promise-native';
 import * as types from '../../types';
 
-import { ITmdbConfiguration, ITmdbGenreList, ITmdbMovie } from '../../models/tmdb';
+import { ITmdbConfiguration, ITmdbGenreList, ITmdbMovie, ITmdbMovieDetails } from '../../models';
 import { ITmdbConfigurationApi, ITmdbGenreApi, ITmdbMovieApi, ITmdbSearchApi } from './api';
-import { ITmdbMoviePopularRequest, ITmdbSearchMovieRequest } from './requests';
+import { ITmdbMovieDetailsRequest, ITmdbMoviePopularRequest, ITmdbSearchMovieRequest } from './requests';
 import { inject, injectable } from 'inversify';
 
 import { IConfig } from '../../config';
@@ -47,8 +47,8 @@ class Tmdb implements ITmdb {
 
   public configuration: ITmdbConfigurationApi = async() => {
     if (!this.cache.configuration) {
-      const response = await request.get(this.url('configuration'));
-      this.cache.configuration = await response.json();
+      const response = await request.get(this.url('configuration'), { json: true });
+      this.cache.configuration = response;
     }
     return this.cache.configuration;
   }
@@ -57,8 +57,8 @@ class Tmdb implements ITmdb {
     movie: {
       list: async(req: { language?: string }) : Promise<ITmdbGenreList> => {
         if (!this.cache.movieGenres) {
-          const response = await request.get(this.url('genre/movie/list', req));
-          this.cache.movieGenres = await response.json();
+          const response = await request.get(this.url('genre/movie/list', req), { json: true });
+          this.cache.movieGenres = response;
         }
         return this.cache.movieGenres;
       },
@@ -67,15 +67,19 @@ class Tmdb implements ITmdb {
 
   public movie: ITmdbMovieApi = {
     popular: async(req: ITmdbMoviePopularRequest) : Promise<IPagedCollection<ITmdbMovie>> => {
-      const response = await request.get(this.url('movie/popular', req));
-      return response.json();
+      const response = await request.get(this.url('movie/popular', req), { json: true });
+      return response;
+    },
+    details: async(req: ITmdbMovieDetailsRequest) : Promise<ITmdbMovieDetails> => {
+      const response = await request.get(this.url(`movie/${req.movieId}`), { json: true });
+      return response;
     },
   };
 
   public search: ITmdbSearchApi = {
     movie: async(req: ITmdbSearchMovieRequest) : Promise<IPagedCollection<ITmdbMovie>> => {
-      const response = await request.get(this.url('search/movie', req));
-      return response.json();
+      const response = await request.get(this.url('search/movie', req), { json: true });
+      return response;
     },
   };
 }
