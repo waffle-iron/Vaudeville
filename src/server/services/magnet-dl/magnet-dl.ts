@@ -5,21 +5,21 @@ import { ITorrentResult } from '../../models';
 import { injectable } from 'inversify';
 
 interface IMagnetDl {
-  getTorrents(title: string, year: number, page: number): Promise<ITorrentResult[]>;
+  getTorrents(title: string, year: number, page?: number): Promise<ITorrentResult[]>;
 }
 
 @injectable()
 class MagnetDl implements IMagnetDl {
-  private static buildSearchUrl(title: string, year: number, page: number): string {
+  private static buildSearchUrl(title: string, year: number, page?: number): string {
     let searchTerm = `${title} ${year.toString()}`;
     searchTerm = searchTerm.toLocaleLowerCase();
     searchTerm = searchTerm.replace(/[':]/g, '');
     searchTerm = searchTerm.replace(/ /g, '-');
 
-    return `http://www.magnetdl.com/${searchTerm.charAt(0)}/${searchTerm}/se/desc/${page.toString()}/`;
+    return `http://www.magnetdl.com/${searchTerm.charAt(0)}/${searchTerm}/se/desc/${page ? page.toString() : '1'}/`;
   }
 
-  public async getTorrents(title: string, year: number, page: number): Promise<ITorrentResult[]> {
+  public async getTorrents(title: string, year: number, page?: number): Promise<ITorrentResult[]> {
     const searchUrl = MagnetDl.buildSearchUrl(title, year, page);
     console.log(searchUrl);
     const response: string = await request(searchUrl);
@@ -47,7 +47,7 @@ class MagnetDl implements IMagnetDl {
 
   private static filesizeToBytes(filesize: string): number {
     filesize = filesize.toLocaleUpperCase();
-    filesize = filesize.replace(/[^0-9KMGTPEB]/g, '');
+    filesize = filesize.replace(/[^.0-9KMGTPEB]/g, '');
 
     const suffixes = [ 'EB', 'PB', 'TB', 'GB', 'MB', 'KB', 'B' ];
     const suffixIndex = suffixes.findIndex((suffix) => filesize.endsWith(suffix));
