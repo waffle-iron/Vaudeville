@@ -17,6 +17,9 @@
     "no-console": [
       false
     ],
+    "no-namespace": [
+      false
+    ],
     "no-shadowed-variable": true,
     "no-unused-variable": [
       true,

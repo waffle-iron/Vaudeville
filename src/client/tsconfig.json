@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": ".",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "inlineSources": true,
@@ -11,6 +12,9 @@
     "noEmitOnError": true,
     "noImplicitAny": false,
     "outDir": ".js",
+    "paths": {
+      "models": ["../models"]
+    },
     "pretty": true,
     "removeComments": true,
     "sourceMap": true,
@@ -21,9 +25,12 @@
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
     "types": [
+      "classnames",
       "node",
-      "reflect-metadata",
-      "isomorphic-fetch",
+      "react",
+      "react-dom",
+      "react-router",
+      "webpack",
       "webpack-env"
       ]
   },

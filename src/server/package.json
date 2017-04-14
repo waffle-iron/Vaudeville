@@ -31,6 +31,6 @@
     "start": "npm run watch",
     "build": "tsc",
     "debug": "node --debug=5858 .js/www.js",
-    "watch": "nodemon --debug=5858 -e ts --exec \"tsc && node --inspect --debug=5858 .js/www.js\""
+    "watch": "nodemon --debug=5858 -e ts --exec \"tsc && node --inspect --debug=5858 .js/server/www.js\""
   }
 }

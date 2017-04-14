@@ -1,4 +1,4 @@
-import { IPagedCollection, ITmdbMovie } from '../../../models';
+import { IPagedCollection, ITmdbMovie } from 'models';
 
 import { ITmdbSearchMovieRequest } from '../requests';
 

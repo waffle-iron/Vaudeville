@@ -1,0 +1,4 @@
+{
+  "typescript.tsdk": "../src/server/node_modules/typescript/lib",
+  "typescript.check.tscVersion": false
+}

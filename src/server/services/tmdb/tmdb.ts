@@ -1,13 +1,13 @@
 import * as request from 'request-promise-native';
 import * as types from '../../types';
 
-import { ITmdbConfiguration, ITmdbGenreList, ITmdbMovie, ITmdbMovieDetails } from '../../models';
+import { ITmdbConfiguration, ITmdbGenreList, ITmdbMovie, ITmdbMovieDetails } from 'models';
 import { ITmdbConfigurationApi, ITmdbGenreApi, ITmdbMovieApi, ITmdbSearchApi } from './api';
 import { ITmdbMovieDetailsRequest, ITmdbMoviePopularRequest, ITmdbSearchMovieRequest } from './requests';
 import { inject, injectable } from 'inversify';
 
 import { IConfig } from '../../config';
-import { IPagedCollection } from '../../models';
+import { IPagedCollection } from 'models';
 
 interface ITmdb {
   configuration: ITmdbConfigurationApi;
@@ -22,14 +22,13 @@ class Tmdb implements ITmdb {
 
   private readonly apiKey: string;
 
-  private cache: {
+  private static cache: {
     configuration: ITmdbConfiguration;
     movieGenres: ITmdbGenreList;
-  };
+  } = { configuration: undefined, movieGenres: undefined };
 
   constructor(
     @inject(types.config) config: IConfig) {
-      this.cache = { configuration: undefined, movieGenres: undefined };
       this.apiKey = config.tmdb.apiKey;
   }
 
@@ -46,21 +45,21 @@ class Tmdb implements ITmdb {
   }
 
   public configuration: ITmdbConfigurationApi = async() => {
-    if (!this.cache.configuration) {
+    if (!Tmdb.cache.configuration) {
       const response = await request.get(this.url('configuration'), { json: true });
-      this.cache.configuration = response;
+      Tmdb.cache.configuration = response;
     }
-    return this.cache.configuration;
+    return Tmdb.cache.configuration;
   }
 
   public genre: ITmdbGenreApi = {
     movie: {
       list: async(req: { language?: string }) : Promise<ITmdbGenreList> => {
-        if (!this.cache.movieGenres) {
+        if (!Tmdb.cache.movieGenres) {
           const response = await request.get(this.url('genre/movie/list', req), { json: true });
-          this.cache.movieGenres = response;
+          Tmdb.cache.movieGenres = response;
         }
-        return this.cache.movieGenres;
+        return Tmdb.cache.movieGenres;
       },
     },
   };

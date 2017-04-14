@@ -1,21 +1,9 @@
+import { IProductionCompany } from './tmdb-production-company';
+import { IProductionCountry } from './tmdb-production-country';
+import { ISpokenLanguage } from './tmdb-spoken-language';
 import { ITmdbGenre } from './tmdb-genre';
 
-interface IProductionCompany {
-  id?: number;
-  name?: string;
-}
-
-interface IProductionCountry {
-  iso_3166_1?: string;
-  name?: string;
-}
-
-interface ISpokenLanguage {
-  iso_639_1: string;
-  name?: string;
-}
-
-interface ITmdbMovieDetails {
+export interface ITmdbMovieDetails {
   adult?: boolean;
   backdrop_path?: string;
   belongs_to_collection?: any;
@@ -42,5 +30,3 @@ interface ITmdbMovieDetails {
   vote_average?: number;
   vote_count?: number;
 }
-
-export { IProductionCompany, IProductionCountry, ISpokenLanguage, ITmdbMovieDetails }

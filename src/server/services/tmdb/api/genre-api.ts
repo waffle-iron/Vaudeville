@@ -1,4 +1,4 @@
-import { ITmdbGenreList } from '../../../models';
+import { ITmdbGenreList } from 'models';
 
 export interface ITmdbGenreApi {
   movie: {

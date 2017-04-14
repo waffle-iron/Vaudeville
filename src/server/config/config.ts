@@ -1,4 +1,4 @@
-import { IQuality } from '../models';
+import { IQuality } from 'models';
 
 interface IConfig {
   app?: {

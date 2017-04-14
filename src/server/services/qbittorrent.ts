@@ -1,14 +1,15 @@
 import * as requestPromise from 'request-promise-native';
-import * as types from '../../types';
+import * as types from '../types';
 
 import { inject, injectable } from 'inversify';
 
-import { IConfig } from '../../config';
+import { IConfig } from '../config';
 
 const request = requestPromise.defaults({ jar: true });
 
 interface IQBittorrent {
   login(username: string, password: string): Promise<IQBittorrent>;
+  add(url: string, savePath?: string, category?: string): Promise<IQBittorrent>;
 }
 
 @injectable()
@@ -29,6 +30,17 @@ class QBittorrent implements IQBittorrent {
       form: {
         username: username ? username : this.username,
         password: password ? password : this.password,
+      },
+    });
+    return this;
+  }
+
+  public async add(url: string, savePath?: string, category?: string): Promise<IQBittorrent> {
+    await request.post(`${this.hostUrl}/command/download`, {
+      formData: {
+        urls: url,
+        savepath: savePath,
+        category,
       },
     });
     return this;

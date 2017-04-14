@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": ".",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "inlineSources": false,
@@ -11,12 +12,19 @@
     "noEmitOnError": true,
     "noImplicitAny": false,
     "outDir": ".js",
+    "paths": {
+      "models": ["../models"]
+    },
     "pretty": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
-    "types": ["reflect-metadata"]
+    "target": "es6",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "reflect-metadata"
+    ]
   },
   "exclude": [
     "node_modules"

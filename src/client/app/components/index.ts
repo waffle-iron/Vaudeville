@@ -4,3 +4,5 @@ export { Card, ICardProps } from './card';
 
 export { MovieCard, IMovieCardProps } from './moviecard';
 export { MovieList, IMovieListProps } from './movielist';
+
+export { Search, ISearchState, ISearchProps } from './search';

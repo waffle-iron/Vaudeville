@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import * as request from 'request-promise-native';
 
-import { ITorrentResult } from '../../models';
+import { ITorrentResult } from 'models';
 import { injectable } from 'inversify';
 
 interface IMagnetDl {

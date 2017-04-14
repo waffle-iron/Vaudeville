@@ -1,4 +1,4 @@
-import { IPagedCollection, ITmdbMovie, ITmdbMovieDetails } from '../../../models';
+import { IPagedCollection, ITmdbMovie, ITmdbMovieDetails } from 'models';
 import { ITmdbMovieDetailsRequest, ITmdbMoviePopularRequest } from '../requests';
 
 export interface ITmdbMovieApi {

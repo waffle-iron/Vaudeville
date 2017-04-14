@@ -1,4 +1,4 @@
-interface ITorrentResult {
+export interface ITorrentResult {
   id: number;
   name: string;
   magnetUrl: string;
@@ -9,5 +9,3 @@ interface ITorrentResult {
   seeders: number;
   leechers: number;
 }
-
-export { ITorrentResult };

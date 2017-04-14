@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as classnames from 'classnames';
+
+import { classes, style } from 'typestyle';
 
 const theme = require('./theme.css');
 
@@ -9,7 +10,7 @@ export interface ICardProps {
 
 export const Card: React.StatelessComponent<ICardProps> = (props) => {
   return (
-    <div className={classnames(theme.card, props.className)}>
+    <div className={classes(props.className, theme.card)} >
       {props.children}
     </div>
   );

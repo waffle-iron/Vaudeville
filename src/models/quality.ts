@@ -1,4 +1,4 @@
-interface IQuality {
+export interface IQuality {
   label: string;
   ordinal: number;
   isEnabled?: boolean;
@@ -7,5 +7,3 @@ interface IQuality {
   maxBitRate?: number;
   preferLarger?: boolean;
 }
-
-export { IQuality };
