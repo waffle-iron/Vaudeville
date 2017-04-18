@@ -4,6 +4,10 @@ An ambitious replacement to CouchPotato and Sonarr.
 #### TODO
 - [ ] **Torrent Providers**
 - [x] Magnet-dl
+- [ ] Rarbg
+- [ ] Torrentz2.eu
+- [ ] ExtraTorrent
+- [ ] 1337x
 - [ ] More?
 ___
 - [ ] **Movie torrent ranking**
@@ -20,6 +24,8 @@ ___
 ___
 - [ ] **Torrent downloading**
 - [ ] Qbittorrent api
+- [x] Add torrent from magnet link
+- [ ] Get torrent download progress
 ___
 - [ ] **Post-processing**
 - [ ] Renaming
@@ -28,4 +34,11 @@ ___
 - [ ] Copy
 - [ ] Trailer download
 ___
-- [ ] **Client**
+- [ ] **Features**
+- [x] Search movies
+- [x] See Popular movies
+- [ ] Discover movies
+- [x] Click to download
+- [ ] Display download progress
+- [ ] Selectable download quality
+- [ ] Movie library stored in database

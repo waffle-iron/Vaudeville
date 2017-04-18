@@ -1,3 +1,5 @@
 node_modules/
 .js/
 .vscode/chrome/**/*
+src/client/npm-debug.log
+src/server/npm-debug.log
