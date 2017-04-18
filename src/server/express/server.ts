@@ -12,17 +12,15 @@ class Server {
   private express: express.Application = express();
   private configFunc: (app: express.Application) => void;
   private errorConfigFunc: (app: express.Application) => void;
-  private routes: any[];
 
   constructor(
     private container: Container,
+    private bindChildContainer?: (childContainer: Container) => void,
     private routeConfig?: IRouteConfig,
     private router?: express.Router,
   ) {
     this.container = container;
     this.router = router || express.Router();
-
-    this.routes = this.getRoutes();
   }
 
   public setConfig(configFunc: (app: express.Application) => void): Server {
@@ -49,10 +47,6 @@ class Server {
     return this.express;
   }
 
-  private getRoutes(): any[] {
-    return ROUTES.map((route: any) => this.container.get(route));
-  }
-
   private registerRoutes(): void {
     ROUTES.forEach((routeConstructor: any) => {
       const routeMetadata: IRouteMetadata =
@@ -72,7 +66,8 @@ class Server {
             ...metadata.middleware,
             handler,
           );
-          console.log(`${metadata.verb.toUpperCase()} ${this.routeConfig.rootPath}${routeMetadata.path}${metadata.path}`);
+          console.log(
+            `${metadata.verb.toUpperCase()} ${this.routeConfig.rootPath}${routeMetadata.path}${metadata.path}`);
         });
 
         this.express.use(`${this.routeConfig.rootPath}${routeMetadata.path}`, router);
@@ -82,7 +77,10 @@ class Server {
 
   private createHandler(routeConstructor: any, key: string): express.RequestHandler {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      const route = this.container.get(routeConstructor);
+      const childContainer = this.container.createChild();
+      this.bindChildContainer(childContainer);
+
+      const route = childContainer.get(routeConstructor);
       const result: any = route[key](req, res, next);
       if (result && result instanceof Promise) {
         result.then((value: any) => {

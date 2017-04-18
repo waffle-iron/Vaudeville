@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import * as ConfigStore from 'configstore';
+import * as Nedb from 'nedb';
 import * as bodyParser from 'body-parser';
 import * as morgan from 'morgan';
 import * as types from './types';
@@ -17,37 +18,44 @@ import { Server } from './express/server';
 
 const config = new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true });
 const port = config.get('app').port;
+const databaseFilePath = config.path.replace(/\.[^/.]+$/, '');
 
-const containerFactory = async(): Promise<Container> => {
+const getParentContainer = () => {
   const container = new Container();
-  container.bind(ConfigurationRouter).toSelf();
-  container.bind(MovieRouter).toSelf();
-  container.bind(TorrentRouter).toSelf();
-
-  container.bind<IConfig>(types.config).toDynamicValue(() =>
-    new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true }).all);
-  container.bind<IMagnetDl>(types.magnetDl).to(MagnetDl);
-  container.bind<ITmdb>(types.tmdb).to(Tmdb);
-  container.bind<IQBittorrent>(types.qBittorrent).to(QBittorrent);
-
-  container.bind<ITorrentService>(types.torrentService).to(TorrentService);
-
+  container.bind<IConfig>(types.config)
+    .toDynamicValue(() => new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true }).all)
+    .inTransientScope();
   return container;
 };
 
-containerFactory()
-  .then((container) => new Server(container, { rootPath: '/api' }))
-  .then((server) =>
-    server.setConfig((e) => {
-      e.use(morgan('dev'));
-      e.use(bodyParser.json());
-      e.use(bodyParser.urlencoded({ extended: false }));
-    }).start())
-  .then((app) =>
-    app.listen(port, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.info(`Listening on port ${port}`);
-      }
-    }));
+const bindChildContainer = (childContainer: Container) => {
+  childContainer.bind(ConfigurationRouter).to(ConfigurationRouter).inSingletonScope();
+  childContainer.bind(MovieRouter).to(MovieRouter).inSingletonScope();
+  childContainer.bind(TorrentRouter).to(TorrentRouter).inSingletonScope();
+
+  childContainer.bind<IMagnetDl>(types.magnetDl).to(MagnetDl).inSingletonScope();
+  childContainer.bind<ITmdb>(types.tmdb).to(Tmdb).inSingletonScope();
+  childContainer.bind<IQBittorrent>(types.qBittorrent).to(QBittorrent).inSingletonScope();
+  childContainer.bind<ITorrentService>(types.torrentService).to(TorrentService).inSingletonScope();
+
+  childContainer.bind<Nedb>(types.nedb)
+    .toDynamicValue(() => new Nedb({ filename: `${databaseFilePath}.db`, autoload: true }))
+    .inSingletonScope();
+
+  return childContainer;
+};
+
+const server = new Server(getParentContainer(), bindChildContainer, { rootPath: '/api' });
+const app = server.setConfig((e) => {
+  e.use(morgan('dev'));
+  e.use(bodyParser.json());
+  e.use(bodyParser.urlencoded({ extended: false }));
+}).start();
+
+app.listen(port, (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.info(`Listening on port ${port}`);
+  }
+});
