@@ -40,5 +40,5 @@ ___
 - [ ] Discover movies
 - [x] Click to download
 - [ ] Display download progress
-- [ ] Selectable download quality
+- [x] Selectable download quality
 - [ ] Movie library stored in database
