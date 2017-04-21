@@ -1,3 +1,4 @@
+export * from './config';
 export * from './paged-collection';
 export * from './quality';
 export * from './tmdb-configuration';

@@ -5,7 +5,7 @@ import { IMagnetDl, IQBittorrent, ITmdb, ITorrentService } from '../services';
 import { get, route } from '../express/decorators';
 import { inject, injectable } from 'inversify';
 
-import { IConfig } from '../config';
+import { IConfig } from 'models';
 
 @injectable()
 @route('/v1/torrents')

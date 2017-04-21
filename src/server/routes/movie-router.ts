@@ -19,6 +19,12 @@ export class MovieRouter {
     res.end(JSON.stringify(movies));
   }
 
+  @get('/config')
+  public async getConfig(req: express.Request, res: express.Response) {
+    const config = await this.tmdb.configuration();
+    res.end(JSON.stringify(config));
+  }
+
   @get('/genres')
   public async getGenres(req: express.Request, res: express.Response) {
     const language: string = req.query.language;

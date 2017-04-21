@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IPagedCollection, ITmdbConfiguration, ITmdbGenre, ITmdbMovie } from 'models';
+import { IConfig, IPagedCollection, IQuality, ITmdbConfiguration, ITmdbGenre, ITmdbMovie } from 'models';
 
 import { IMovieCardProps } from '../components';
 import { MovieList } from '../components';
@@ -12,6 +12,8 @@ export interface IMovieListContainerProps {
 export interface IMovieListContainerState {
   searchToken?: string;
   results: IMovieCardProps[];
+  defaultQuality?: string;
+  qualities: string[];
 }
 
 export class MovieListContainer extends React.Component<IMovieListContainerProps, IMovieListContainerState> {
@@ -23,14 +25,20 @@ export class MovieListContainer extends React.Component<IMovieListContainerProps
     super(props);
     this.state = {
       results: [],
+      qualities: [],
     };
 
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.search = this.search.bind(this);
   }
 
-  public async componentDidMount() {
+  public async componentWillMount() {
+    const config: IConfig = await fetch('/api/v1/configuration').then<any>((res) => res.json());
+    this.setState({
+      defaultQuality: config.torrent.ranking.defaultQuality,
+      qualities: config.torrent.ranking.qualities.sort((a, b) => b.ordinal - a.ordinal).map((q) => q.label),
+    });
     await this.search(this.props.searchToken);
   }
 
@@ -39,12 +47,13 @@ export class MovieListContainer extends React.Component<IMovieListContainerProps
       await this.search(nextProps.searchToken);
     }
   }
+
   public async search(name?: string): Promise<IMovieCardProps[]> {
     const pagedMovies: IPagedCollection<ITmdbMovie> = name
       ? await fetch(`/api/v1/movies/?title=${name}`).then<any>((res) => res.json())
       : await fetch('/api/v1/movies/popular').then<any>((res) => res.json());
 
-    const configuration: ITmdbConfiguration = await fetch('/api/v1/configuration').then<any>((res) => res.json());
+    const configuration: ITmdbConfiguration = await fetch('/api/v1/movies/config').then<any>((res) => res.json());
     const genres: ITmdbGenre[] = await fetch('/api/v1/movies/genres').then<any>((res) => res.json());
     const mappedGenres = new Map<number, string>(genres.map<[number, string]>((g) => [g.id, g.name]));
 
@@ -54,15 +63,12 @@ export class MovieListContainer extends React.Component<IMovieListContainerProps
        pagedMovies.results
         .filter((tmdbMovie) => tmdbMovie.vote_count > minVotes).length > 0;
 
-    const results =
+    const results: IMovieCardProps[] =
       pagedMovies.results
         .filter((tmdbMovie) => !shouldFilter || tmdbMovie.vote_count > minVotes)
         .map((tmdbMovie) => {
           return {
-            key: tmdbMovie.id,
             movieId: tmdbMovie.id,
-            title: tmdbMovie.title,
-            year: tmdbMovie.release_date.substring(0, 4),
             genres: this.getGenreNames(tmdbMovie.genre_ids, mappedGenres),
             poster:
               this.buildImageUrl(
@@ -70,8 +76,12 @@ export class MovieListContainer extends React.Component<IMovieListContainerProps
                 configuration.images.poster_sizes,
                 300,
                 tmdbMovie.poster_path),
+            defaultQuality: this.state.defaultQuality,
+            qualities: this.state.qualities,
             rating: tmdbMovie.vote_average,
             ratingMax: 10,
+            title: tmdbMovie.title,
+            year: tmdbMovie.release_date.substring(0, 4),
           };
         });
 
@@ -95,7 +105,6 @@ export class MovieListContainer extends React.Component<IMovieListContainerProps
     if (!genreIds || !genres) {
       return [];
     }
-
     return genreIds.map((genreId) => genres.get(genreId)).sort((a, b) => a > b ? 1 : -1);
   }
 
@@ -116,7 +125,8 @@ export class MovieListContainer extends React.Component<IMovieListContainerProps
   public render(): JSX.Element {
     return (
       <MovieList
-        movies={this.state.results} />
+        movies={this.state.results}
+        qualities={this.state.qualities}/>
     );
   }
 }

@@ -3,7 +3,7 @@ import * as types from '../types';
 import { IQuality, ITmdbMovieDetails, ITorrentRanking, ITorrentResult } from 'models';
 import { inject, injectable } from 'inversify';
 
-import { IConfig } from '../config';
+import { IConfig } from 'models';
 
 interface ITorrentService {
   rankTorrents(torrents: ITorrentResult[], movieDetails: ITmdbMovieDetails, maxQuality?: IQuality): ITorrentRanking[];

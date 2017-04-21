@@ -5,15 +5,13 @@ import { classes, cssRule, style } from 'typestyle';
 
 export interface IMovieListProps {
   movies: IMovieCardProps[];
-  ratingMax?: number;
   moviesPerRow?: number;
   movieHeight?: number;
   moviePadding?: number;
   movieWidth?: number;
   movieRowSpacing?: number;
-}
-
-export interface IMovieListState {
+  ratingMax?: number;
+  qualities: string[];
 }
 
 namespace MovieListStyle {
@@ -45,15 +43,16 @@ namespace MovieListStyle {
 
 }
 
-export class MovieList extends React.Component<IMovieListProps, IMovieListState> {
+export class MovieList extends React.Component<IMovieListProps, {}> {
   public static defaultProps: IMovieListProps = {
     movies: [],
-    ratingMax: 10,
     moviesPerRow: 8,
     movieHeight: 201,
     moviePadding: 12,
     movieWidth: 134,
     movieRowSpacing: 30,
+    ratingMax: 10,
+    qualities: [],
   };
 
   constructor(props: IMovieListProps) {
@@ -62,16 +61,19 @@ export class MovieList extends React.Component<IMovieListProps, IMovieListState>
     this.renderMovie = this.renderMovie.bind(this);
   }
 
-  private renderMovie(movie: IMovieCardProps & { key: number }): JSX.Element {
+  private renderMovie(movie: IMovieCardProps): JSX.Element {
+
     return (
         <MovieCard
           className={MovieListStyle.movie(this.props)}
-          key={movie.key}
-          movieId={movie.key}
+          key={movie.movieId}
+          movieId={movie.movieId}
           title={movie.title}
           year={movie.year}
           genres={movie.genres}
           poster={movie.poster ? movie.poster : ''}
+          defaultQuality={movie.defaultQuality}
+          qualities={this.props.qualities}
           rating={movie.rating}
           ratingMax={this.props.ratingMax}
           width={this.props.movieWidth}
@@ -82,7 +84,7 @@ export class MovieList extends React.Component<IMovieListProps, IMovieListState>
   public render(): JSX.Element {
     const emptyMovieElements: JSX.Element[] = [];
     for (let i = 0; i < this.props.moviesPerRow; i++) {
-      emptyMovieElements.push((<div className={MovieListStyle.movie(this.props)} />));
+      emptyMovieElements.push((<div className={MovieListStyle.movie(this.props)} key={`empty${i}`}/>));
     }
     return (
       <div className={MovieListStyle.movieList}>

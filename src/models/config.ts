@@ -28,6 +28,7 @@ interface IConfig {
         excluded?: string[];
         weighted?: { keywords: string[], weight: number };
       };
+      defaultQuality?: string;
       qualities: IQuality[];
     };
   };

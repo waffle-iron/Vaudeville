@@ -1,4 +1,4 @@
-import { IConfig } from './config';
+import { IConfig } from 'models';
 
 export const defaultConfig: IConfig = {
   app: {
@@ -21,11 +21,12 @@ export const defaultConfig: IConfig = {
         lowerBounds: 1,
         upperBounds: null,
       },
+      defaultQuality: '1080p',
       qualities: [
         {
           label: '2160p',
           ordinal: 1,
-          isEnabled: false,
+          isEnabled: true,
           identifiers: ['4k', '2160', '2160p'],
           minBitRate: 32,
           maxBitRate: 64,
@@ -34,7 +35,7 @@ export const defaultConfig: IConfig = {
         {
           label: '1440p',
           ordinal: 2,
-          isEnabled: false,
+          isEnabled: true,
           identifiers: ['1440', '1440p'],
           minBitRate: 16,
           maxBitRate: 32,
@@ -61,7 +62,7 @@ export const defaultConfig: IConfig = {
         {
           label: '480p',
           ordinal: 5,
-          isEnabled: false,
+          isEnabled: true,
           identifiers: ['480', '480p'],
           minBitRate: 2.5,
           maxBitRate: 5,
@@ -70,7 +71,7 @@ export const defaultConfig: IConfig = {
         {
           label: '360p',
           ordinal: 6,
-          isEnabled: false,
+          isEnabled: true,
           identifiers: ['360', '360p'],
           minBitRate: 1,
           maxBitRate: 2,

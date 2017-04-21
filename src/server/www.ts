@@ -7,14 +7,15 @@ import * as morgan from 'morgan';
 import * as types from './types';
 
 import { ConfigurationRouter, MovieRouter, TorrentRouter } from './routes';
-import { IConfig, defaultConfig } from './config';
 import { IMagnetDl, MagnetDl } from './services';
 import { IQBittorrent, QBittorrent } from './services';
 import { ITmdb, Tmdb } from './services';
 import { ITorrentService, TorrentService } from './services';
 
 import { Container } from 'inversify';
+import { IConfig } from 'models';
 import { Server } from './express/server';
+import { defaultConfig } from './config';
 
 const config = new ConfigStore('vaudeville', defaultConfig, { globalConfigPath: true });
 const port = config.get('app').port;

@@ -1,13 +1,11 @@
 import * as request from 'request-promise-native';
 import * as types from '../../types';
 
+import { IConfig, IPagedCollection } from 'models';
 import { ITmdbConfiguration, ITmdbGenreList, ITmdbMovie, ITmdbMovieDetails } from 'models';
 import { ITmdbConfigurationApi, ITmdbGenreApi, ITmdbMovieApi, ITmdbSearchApi } from './api';
 import { ITmdbMovieDetailsRequest, ITmdbMoviePopularRequest, ITmdbSearchMovieRequest } from './requests';
 import { inject, injectable } from 'inversify';
-
-import { IConfig } from '../../config';
-import { IPagedCollection } from 'models';
 
 interface ITmdb {
   configuration: ITmdbConfigurationApi;

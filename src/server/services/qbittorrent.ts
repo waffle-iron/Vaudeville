@@ -3,7 +3,7 @@ import * as types from '../types';
 
 import { inject, injectable } from 'inversify';
 
-import { IConfig } from '../config';
+import { IConfig } from 'models';
 
 const request = requestPromise.defaults({ jar: true });
 
